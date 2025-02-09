@@ -11,7 +11,7 @@ const LandingPage = () => {
     <Box
       sx={{
         height: '100vh',
-        backgroundImage: 'url("http://localhost:5000/uploads/res3.avif")',  
+        backgroundImage: 'url("https://restaurant-listing-platform.onrender.com/uploads/res3.avif")',  
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         display: 'flex',

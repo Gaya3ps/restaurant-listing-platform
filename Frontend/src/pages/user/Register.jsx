@@ -64,7 +64,7 @@ const Register = () => {
     <Box
       sx={{
         height: "100vh",
-        backgroundImage: 'url("http://localhost:5000/uploads/res6.avif")', // Update with your image path
+        backgroundImage: 'url("https://restaurant-listing-platform.onrender.com/uploads/res6.avif")', // Update with your image path
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",

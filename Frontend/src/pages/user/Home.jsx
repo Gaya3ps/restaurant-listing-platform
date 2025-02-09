@@ -240,7 +240,7 @@ const Home = () => {
                   component="img"
                   height="200"
                   image={
-                    `http://localhost:5000${restaurant.image}` ||
+                    `https://restaurant-listing-platform.onrender.com${restaurant.image}` ||
                     "https://via.placeholder.com/300x200.png?text=No+Image"
                   }
                   alt={`${restaurant.name} image`}

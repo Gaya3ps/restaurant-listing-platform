@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import axiosInstance from "./axiosInstance";
-const baseURL = "http://localhost:5000/api/users";
+const baseURL = "https://restaurant-listing-platform.onrender.com/api/users";
 
 export const userRegister = async (formData) => {
   try {

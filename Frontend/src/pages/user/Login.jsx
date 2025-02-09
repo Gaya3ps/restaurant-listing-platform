@@ -41,7 +41,7 @@ const Login = () => {
     <Box
       sx={{
         height: "100vh",
-        backgroundImage: 'url("http://localhost:5000/uploads/res4.avif")',
+        backgroundImage: 'url("https://restaurant-listing-platform.onrender.com/uploads/res4.avif")',
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
