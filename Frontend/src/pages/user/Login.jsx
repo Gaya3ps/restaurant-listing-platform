@@ -1,88 +1,3 @@
-// import React, { useState } from "react";
-// import { TextField, Button, Container, Typography, Box } from "@mui/material";
-// import { userLogin } from "../../services/userServices";
-// import { useNavigate } from "react-router-dom";
-
-// const Login = () => {
-//   const [formData, setFormData] = useState({ email: "", password: "" });
-//   const [message, setMessage] = useState("");
-//   const [userData, setUserData] = useState(null);
-
-//   const navigate = useNavigate();
-
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-  
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await userLogin(formData)
-//       setMessage(response.data.message);
-//       setUserData(response.data.user);
-//       navigate("/home",{state:{user:response.data.user}});
-
-//     } catch (error) {
-//       setMessage(
-//         error.response?.data?.error || "Login failed. Please try again."
-//       );
-//     }
-//   };
-
-//   return (
-//     <Container maxWidth="sm" style={{ marginTop: "50px" }}>
-//       <Typography variant="h4" align="center" gutterBottom>
-//         Login
-//       </Typography>
-//       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-//         <TextField
-//           fullWidth
-//           margin="normal"
-//           label="Email"
-//           name="email"
-//           type="email"
-//           value={formData.email}
-//           onChange={handleChange}
-//         />
-//         <TextField
-//           fullWidth
-//           margin="normal"
-//           label="Password"
-//           name="password"
-//           type="password"
-//           value={formData.password}
-//           onChange={handleChange}
-//         />
-//         <Button
-//           type="submit"
-//           variant="contained"
-//           color="primary"
-//           fullWidth
-//           sx={{ mt: 2 }}
-//         >
-//           Login
-//         </Button>
-//       </Box>
-//       {message && (
-//         <Typography color="primary" align="center" sx={{ mt: 2 }}>
-//           {message}
-//         </Typography>
-//       )}
-//       {userData && (
-//         <Typography color="secondary" align="center" sx={{ mt: 2 }}>
-//           Welcome, {userData.username}!
-//         </Typography>
-//       )}
-//     </Container>
-//   );
-// };
-
-// export default Login;
-
-
-
 import React, { useState } from "react";
 import {
   TextField,
@@ -94,7 +9,7 @@ import {
 } from "@mui/material";
 import { userLogin } from "../../services/userServices";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, LogIn } from "lucide-react";
+import { Mail, Lock, LogIn, UserPlus } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Login = () => {
@@ -228,11 +143,30 @@ const Login = () => {
             </Typography>
           )}
 
-          {userData && (
-            <Typography color="secondary" align="center" sx={{ mt: 2 }}>
-              Welcome, {userData.username}!
-            </Typography>
-          )}
+          <Typography
+            align="center"
+            sx={{
+              mt: 3,
+              cursor: "pointer",
+              fontWeight: "bold",
+              color: "#5C4033",
+            }}
+            onClick={() => navigate("/register")}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 120 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <UserPlus />
+              Don't have an account? Register
+            </motion.div>
+          </Typography>
         </Container>
       </motion.div>
     </Box>
