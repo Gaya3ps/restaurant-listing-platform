@@ -309,6 +309,15 @@ const Home = () => {
                     <Phone sx={{ fontSize: 20 }} color="action" />{" "}
                     {restaurant.contact}
                   </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    paragraph
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <LocationOn sx={{ fontSize: 20 }} color="action" />{" "}
+                    {restaurant.username}
+                  </Typography>
                 </CardContent>
                 <CardActions
                   sx={{ justifyContent: "space-between", padding: 2 }}

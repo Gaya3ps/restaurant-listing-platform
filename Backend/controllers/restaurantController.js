@@ -7,7 +7,7 @@ export const getRestaurants = async (req, res) => {
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
-    const restaurants = await Restaurant.find();
+    const restaurants = await Restaurant.find().populate("userId","username");
     res.json(restaurants);
   } catch (error) {
     console.error("Error fetching restaurants:", error);
