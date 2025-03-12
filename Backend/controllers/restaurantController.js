@@ -4,13 +4,10 @@ import Restaurant from "../models/Restaurant.js";
 export const getRestaurants = async (req, res) => {
   try {
     const userId = req.user.id;
-
     if (!userId) {
       return res.status(400).json({ error: "User ID is required" });
     }
-
-    const restaurants = await Restaurant.find({ userId });
-
+    const restaurants = await Restaurant.find();
     res.json(restaurants);
   } catch (error) {
     console.error("Error fetching restaurants:", error);
@@ -50,6 +47,12 @@ export const addRestaurant = async (req, res) => {
 // Update a restaurant
 export const updateRestaurant = async (req, res) => {
   try {
+    const userId = req.user.id;
+    if (Restaurant.userId !== userId) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this restaurant" });
+    }
     const { id } = req.params;
     const { name, address, contact } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : undefined;
@@ -73,6 +76,12 @@ export const updateRestaurant = async (req, res) => {
 // Delete a restaurant
 export const deleteRestaurant = async (req, res) => {
   try {
+    const userId = req.user.id;
+    if (Restaurant.userId !== userId) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this restaurant" });
+    }
     const { id } = req.params;
     await Restaurant.findByIdAndDelete(id);
     res.status(204).end();
