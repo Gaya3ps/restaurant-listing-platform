@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-const baseURL = "http://localhost:5000/api/users";
+// const baseURL = "http://localhost:5000/api/users";
 
-// const baseURL = "https://restaurant-listing-platform.onrender.com/api/users";
+const baseURL = "https://restaurant-listing-platform.onrender.com/api/users";
 
 const axiosInstance = axios.create({
   baseURL,
