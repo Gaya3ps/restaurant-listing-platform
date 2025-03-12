@@ -28,7 +28,16 @@ import {
   Avatar,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Add, Delete, Edit, Logout, Upload,LocationOn, Phone,RestaurantMenu } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  Logout,
+  Upload,
+  LocationOn,
+  Phone,
+  RestaurantMenu,
+} from "@mui/icons-material";
 import { motion } from "framer-motion";
 
 const Home = () => {
@@ -109,10 +118,14 @@ const Home = () => {
       if (formData.image) formDataWithImage.append("image", formData.image);
 
       if (editing) {
-        await updateRestaurant(currentId, formDataWithImage);
-        setEditing(false);
-        setCurrentId(null);
-        showNotification("Restaurant updated successfully!", "success");
+        const response = await updateRestaurant(currentId, formDataWithImage);
+        if (response.status === 200) {
+          showNotification("Restaurant updated successfully!", "success");
+          setEditing(false);
+          setCurrentId(null);
+          setFormData({ name: "", address: "", contact: "", image: null });
+          loadRestaurants();
+        }
       } else {
         await addRestaurant(formDataWithImage);
         showNotification("Restaurant added successfully!", "success");
@@ -122,7 +135,11 @@ const Home = () => {
       loadRestaurants();
       setOpen(false);
     } catch (error) {
-      showNotification("Error saving restaurant.", "error");
+      console.error("Error updating restaurant:", error);
+      showNotification(
+        error.response?.data?.message || "Error updating restaurant.",
+        "error"
+      );
     }
   };
 
@@ -140,11 +157,17 @@ const Home = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteRestaurant(id);
-      loadRestaurants();
-      showNotification("Restaurant deleted successfully!", "success");
+      const response = await deleteRestaurant(id);
+      if (response.status === 204) {
+        loadRestaurants();
+        showNotification("Restaurant deleted successfully!", "success");
+      }
     } catch (error) {
-      showNotification("Error deleting restaurant.", "error");
+      console.error("Error deleting restaurant:", error);
+      showNotification(
+        error.response?.data?.message || "Error deleting restaurant.",
+        "error"
+      );
     }
   };
 
@@ -184,7 +207,11 @@ const Home = () => {
 
       <AppBar position="static" color="default" elevation={1}>
         <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: "bold" }}>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{ flexGrow: 1, fontWeight: "bold" }}
+          >
             Restaurant Management
           </Typography>
           <Box display="flex" gap={2}>
@@ -215,7 +242,11 @@ const Home = () => {
         {/* Restaurant Cards */}
         <Box
           display="grid"
-          gridTemplateColumns={{ xs: "1fr", sm: "1fr 1fr", md: "repeat(3, 1fr)" }}
+          gridTemplateColumns={{
+            xs: "1fr",
+            sm: "1fr 1fr",
+            md: "repeat(3, 1fr)",
+          }}
           gap={3}
           sx={{ mt: 3 }}
         >
@@ -252,33 +283,52 @@ const Home = () => {
                   }}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <RestaurantMenu sx={{ fontSize: 20, marginRight: 1 }} /> {restaurant.name}
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    gutterBottom
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <RestaurantMenu sx={{ fontSize: 20, marginRight: 1 }} />{" "}
+                    {restaurant.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" paragraph sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-    <LocationOn sx={{ fontSize: 20 }} color="action" /> {restaurant.address}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    paragraph
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <LocationOn sx={{ fontSize: 20 }} color="action" />{" "}
+                    {restaurant.address}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Phone sx={{ fontSize: 20 }} color="action" /> {restaurant.contact}
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    <Phone sx={{ fontSize: 20 }} color="action" />{" "}
+                    {restaurant.contact}
                   </Typography>
                 </CardContent>
-                <CardActions sx={{ justifyContent: "space-between", padding: 2 }}>
-                <Button
-    variant="text"
-    startIcon={<Edit />}
-    color="primary"
-    onClick={() => handleEdit(restaurant)}
-  >
-    Edit
-  </Button>
-  <Button
-    variant="text"
-    startIcon={<Delete />}
-    color="error"
-    onClick={() => handleDelete(restaurant._id)}
-  >
-    Delete
-  </Button>
+                <CardActions
+                  sx={{ justifyContent: "space-between", padding: 2 }}
+                >
+                  <Button
+                    variant="text"
+                    startIcon={<Edit />}
+                    color="primary"
+                    onClick={() => handleEdit(restaurant)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="text"
+                    startIcon={<Delete />}
+                    color="error"
+                    onClick={() => handleDelete(restaurant._id)}
+                  >
+                    Delete
+                  </Button>
                 </CardActions>
               </Card>
             </motion.div>

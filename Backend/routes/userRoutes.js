@@ -1,13 +1,3 @@
-// import { Router } from 'express';
-// const userController = require('../controllers/userController')
-
-// const userRouter = Router();
-
-// userRouter.post('/register',userController.userRegistration);
-
-// module.exports = router;
-
-// routes/userRoutes.js
 import { Router } from "express";
 import multer from "multer";
 import { loginUser, registerUser } from "../controllers/userController.js";

@@ -48,14 +48,25 @@ export const addRestaurant = async (req, res) => {
 export const updateRestaurant = async (req, res) => {
   try {
     const userId = req.user.id;
-    if (Restaurant.userId !== userId) {
+    const { id } = req.params;
+    const { name, address, contact } = req.body;
+    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
+
+    // Fetch the restaurant first
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    console.log(userId, "session user id");
+    console.log(restaurant.userId, "model id of user");
+
+    // Check if the logged-in user is the owner
+    if (restaurant.userId.toString() !== userId) {
       return res
         .status(403)
         .json({ message: "Unauthorized to update this restaurant" });
     }
-    const { id } = req.params;
-    const { name, address, contact } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : undefined;
 
     const updatedData = { name, address, contact };
     if (image) updatedData.image = image;
@@ -66,7 +77,7 @@ export const updateRestaurant = async (req, res) => {
       { new: true }
     );
 
-    res.json(updatedRestaurant);
+    res.status(200).json(updatedRestaurant);
   } catch (error) {
     console.error("Error updating restaurant:", error);
     res.status(500).json({ error: "Server error" });
@@ -77,12 +88,24 @@ export const updateRestaurant = async (req, res) => {
 export const deleteRestaurant = async (req, res) => {
   try {
     const userId = req.user.id;
-    if (Restaurant.userId !== userId) {
+    const { id } = req.params;
+
+    // Fetch the restaurant first
+    const restaurant = await Restaurant.findById(id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    console.log(userId, "session user id");
+    console.log(restaurant.userId, "model id of user");
+
+    // Check if the logged-in user is the owner
+    if (restaurant.userId.toString() !== userId) {
       return res
         .status(403)
-        .json({ message: "Unauthorized to update this restaurant" });
+        .json({ message: "Unauthorized to delete this restaurant" });
     }
-    const { id } = req.params;
+
     await Restaurant.findByIdAndDelete(id);
     res.status(204).end();
   } catch (error) {

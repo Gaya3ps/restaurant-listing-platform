@@ -16,8 +16,10 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://restaurant-listing-platform.vercel.app", 
-    credentials: true, 
+    // origin: "https://restaurant-listing-platform.vercel.app",
+    origin: "http://localhost:5173",
+
+    credentials: true,
   })
 );
 
