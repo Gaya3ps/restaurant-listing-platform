@@ -26,6 +26,7 @@ import {
   Snackbar,
   Alert,
   Avatar,
+  Person 
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import {
@@ -315,8 +316,8 @@ const Home = () => {
                     paragraph
                     sx={{ display: "flex", alignItems: "center", gap: 1 }}
                   >
-                    <LocationOn sx={{ fontSize: 20 }} color="action" />{" "}
-                    {restaurant.username}
+                    <Person  sx={{ fontSize: 20, marginRight: 1}} color="action" />{" "}
+                    {restaurant.userId.username}
                   </Typography>
                 </CardContent>
                 <CardActions
